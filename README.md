@@ -10,6 +10,9 @@
 
 ---
 
+## Problème
+**Automatisation du start** : le champ de notification est noté comme non obligatoire, mais bloque la création sans nous en notifier
+
 ## 🧐 Aperçu
 
 ![LoginJeDonneJePrête](https://i.postimg.cc/ZqBdYqzL/Capture-d-ecran-2026-02-24-104740.png)
