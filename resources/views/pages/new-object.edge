@@ -1,0 +1,274 @@
+@let(title = t('messages.add_item.title'))
+@let(css = 'object-form.css')
+@include('partials/header')
+
+@let(catMap = {
+'Sport & Loisirs': 'sport',
+'Culture & Livres': 'books',
+'Vêtements': 'clothes',
+'Informatique & Tech': 'tech',
+'Maison & Cuisine': 'home',
+'Jouets & Enfants': 'toys',
+'Électroménager': 'appliances',
+'Musique & Art': 'art',
+'Bureau & Fournitures': 'office'
+})
+
+<main>
+  @include('partials/flash')
+  <h1>
+    {{ t('messages.add_item.title') }}
+  </h1>
+
+  {{-- Utilisation de route() pour l'action du formulaire --}}
+  <form
+    id="objectForm"
+    action="{{ route('donation_objects.store') }}"
+    method="POST"
+    enctype="multipart/form-data"
+  >
+    {{ csrfField() }}
+    <input type="hidden" id="hiddenMode" name="mode" value="" />
+
+    <div class="field-group">
+      <label for="image">{{ t('messages.add_item.image_label') }}</label>
+      <input
+        type="file"
+        id="image"
+        name="image"
+        accept="image/jpeg,image/png,image/webp"
+        data-message-type="{{ t('messages.add_item.image_error_type') }}"
+        data-message-limit="{{ t('messages.add_item.image_error_size') }}"
+        data-message-compressing="{{ t('messages.add_item.image_compressing') }}"
+      />
+
+      {{-- Limite de taille annoncée dès la zone d'upload --}}
+      <small class="upload-hint">{{ t('messages.add_item.image_hint') }}</small>
+
+      {{-- Message immédiatement visible (taille/format) — voir image-upload.js --}}
+      @if(flashMessages.has('errors.image'))
+        <div id="imageFeedback" class="upload-feedback error" role="alert" aria-live="assertive">
+          @each(message in flashMessages.get('errors.image'))
+            <span>{{ message }}</span>
+          @end
+        </div>
+      @else
+        <div id="imageFeedback" class="upload-feedback" role="alert" aria-live="assertive" hidden></div>
+      @end
+
+      <img
+        class="CACHER"
+        id="imageDisplay"
+        src=""
+        alt="{{ t('messages.add_item.image_preview_alt') }}"
+      />
+    </div>
+
+    {{-- Nom de l'objet --}}
+    <div class="field-group">
+      <label for="name">{{ t('messages.add_item.name_label') }}</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        value="{{ old('name') || '' }}"
+        required
+        placeholder="{{ t('messages.add_item.name_placeholder') }}"
+      />
+      @if(flashMessages.has('errors.name'))
+        <small class="errors">{{ flashMessages.get('errors.name') }}</small>
+      @endif
+    </div>
+
+    {{-- Description --}}
+    <div class="field-group">
+      <label for="description">{{ t('messages.add_item.desc_label') }}</label>
+      <textarea
+        id="description"
+        name="description"
+        rows="5"
+        required
+        placeholder="{{ t('messages.add_item.desc_placeholder') }}"
+      >{{ old('description') || '' }}</textarea>
+      @if(flashMessages.has('errors.description'))
+        <small class="errors">{{ flashMessages.get('errors.description') }}</small>
+      @endif
+    </div>
+
+    <div class="field-group">
+      <label for="IsUrgent">{{ t('messages.add_item.urgent_label') }}</label>
+      <input type="checkbox" id="IsUrgent" name="IsUrgent" value="1" />
+    </div>
+
+  @if(isReferent)
+  <div class="field-group referent-checkbox-group">
+    <label for="as_referent" class="referent-label">
+      {{ t('messages.add_item.act_as_referent') }}
+      <input 
+        type="checkbox" 
+        id="as_referent" 
+        name="as_referent" 
+        value="1" 
+        {{ old('as_referent') == '1' ? 'checked' : '' }}
+      />
+    </label>
+  </div>
+@endif
+
+    {{-- Catégorie --}}
+    <div class="field-group">
+      <label for="categorie">{{ t('messages.add_item.cat_label') }}</label>
+      <select name="categorie" id="categorie" required>
+        <option value="" disabled {{ !old('categorie') ? 'selected' : '' }}>
+          {{ t('messages.add_item.cat_select') }}
+        </option>
+
+        {{-- Liste simple des clés techniques --}}
+        @each(key in ['sport', 'books', 'clothes', 'tech', 'home', 'toys', 'appliances', 'art', 'office'])
+          <option value="{{ key }}" {{ (old('categorie')===key) ? 'selected' : '' }}>
+            {{ t(`messages.add_item.categories.${key}`) }}
+          </option>
+        @end
+      </select>
+    </div>
+
+    {{-- Type (Don/Prêt/Recherche) --}}
+    <div class="field-group">
+      <label for="mode">{{ t('messages.add_item.mode_label') }}</label>
+      <select id="mode" name="mode" required>
+        <option value="">
+          {{ t('messages.add_item.mode_select') }}
+        </option>
+        <option value="donation" {{ old('mode')=='donation' ? 'selected' : '' }}>
+          {{ t('messages.add_item.mode_donation') }}
+        </option>
+        <option value="search" {{ old('mode')=='search' ? 'selected' : '' }}>
+          {{ t('messages.add_item.mode_search') }}
+        </option>
+      </select>
+    </div>
+
+    {{-- Type (Don/Prêt) - Visible uniquement en mode donation --}}
+    <div id="type_section" class="field-group" style="display: none;">
+      <label for="type">{{ t('messages.add_item.status_label') }}</label>
+      <select id="type" name="type">
+        <option value="">
+          {{ t('messages.add_item.status_select') }}
+        </option>
+        <option value="0" {{ old('type')=='0' ? 'selected' : '' }}>
+          {{ t('messages.add_item.status_give') }}
+        </option>
+        <option value="1" {{ old('type')=='1' ? 'selected' : '' }}>
+          {{ t('messages.add_item.status_lend') }}
+        </option>
+      </select>
+    </div>
+
+    {{-- Section Dates --}}
+    <div id="availability_section" class="field-group" style="display: none;">
+      <p>
+        {{ t('messages.add_item.loan_details') }}
+      </p>
+
+      {{-- Toujours visible si Don ou Prêt --}}
+      <div class="field">
+        <label for="available_from">{{ t('messages.add_item.from') }}</label>
+        <input
+          type="datetime-local"
+          id="available_from"
+          name="available_from"
+          value="{{ old('available_from') || '' }}"
+        />
+      </div>
+
+      {{-- Masqué si c'est un Don --}}
+      <div id="until_field">
+        <div class="field">
+          <label for="available_until">{{ t('messages.add_item.until') }}</label>
+          <input
+            type="datetime-local"
+            id="available_until"
+            name="available_until"
+            value="{{ old('available_until') || '' }}"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="submit">
+        {{ t('messages.add_item.submit') }}
+      </button>
+      {{-- Lien retour vers Home via route() --}}
+      <a href="{{ route('donation_objects.index') }}" class="btn-cancel">{{ t('messages.add_item.back') }}</a>
+    </div>
+  </form>
+</main>
+
+<script>
+  const modeSelector = document.getElementById("mode");
+
+  const typeSection = document.getElementById("type_section");
+
+  const typeSelector = document.getElementById("type");
+
+  const availabilitySection = document.getElementById("availability_section");
+
+  const untilField = document.getElementById("until_field");
+
+  const objectForm = document.getElementById("objectForm");
+
+  const hiddenMode = document.getElementById("hiddenMode");
+
+  function toggleMode() {
+    const mode = modeSelector.value;
+    hiddenMode.value = mode;
+    if (mode === "donation") {
+      typeSection.style.display = "block";
+      // Déclenche aussi la fonction toggleDates
+      toggleDates();
+    } else if (mode === "search") {
+      typeSection.style.display = "none";
+      typeSelector.value = "";
+      availabilitySection.style.display = "block";
+    } else {
+      typeSection.style.display = "none";
+      availabilitySection.style.display = "none";
+    }
+  }
+
+  function toggleDates() {
+    const val = typeSelector.value;
+    if (val === "0") {
+      availabilitySection.style.display = "block";
+      untilField.style.display = "block";
+    } else if (val === "1") {
+      availabilitySection.style.display = "block";
+      untilField.style.display = "block";
+    } else {
+      availabilitySection.style.display = "none";
+    }
+  }
+  // Intercepter le submit pour rediriger vers la bonne route
+
+  objectForm.addEventListener("submit", function(e) {
+    const mode = modeSelector.value;
+    if (mode === "search") {
+      // Changer l'action vers cherche_objects.store
+      objectForm.action = "{{ route("cherche_objects.store") }}";
+    } else {
+      objectForm.action = "{{ route("donation_objects.store") }}";
+    }
+  });
+
+  modeSelector.addEventListener("change", toggleMode);
+
+  typeSelector.addEventListener("change", toggleDates);
+
+  window.addEventListener("DOMContentLoaded", function() {
+    toggleMode();
+  });
+  // L'aperçu et la compression de l'image sont gérés par resources/js/image-upload.js
+</script>
+
+@include('partials/footer')

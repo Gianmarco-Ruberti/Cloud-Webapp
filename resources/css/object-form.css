@@ -1,0 +1,236 @@
+@import url(variable.css);
+
+/* Shared style for add + edit object pages */
+main {
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  padding-bottom: 50px;
+}
+
+h1 {
+  font-size: 26px;
+  font-weight: 600;
+  margin: 28px auto 14px auto;
+  max-width: 650px;
+  padding: 0 20px;
+  text-align: center;
+}
+
+form {
+  width: 650px;
+  max-width: calc(100% - 20px);
+  background: var(--colorform);
+  padding: 24px 0;
+  margin: 12px auto 24px auto;
+  box-sizing: border-box;
+  border-radius: 15px;
+}
+
+form > div,
+.field-group {
+  margin-top: 16px;
+  margin-bottom: 12px;
+  padding: 0 22px;
+  box-sizing: border-box;
+}
+
+form > div:first-of-type,
+.field-group:first-of-type {
+  margin-top: 0;
+}
+
+.field {
+  margin-top: 10px;
+  padding: 0;
+}
+
+input[type='text'],
+input[type='datetime-local'],
+textarea,
+select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  font-size: 16px;
+  background-color: var(--colorText);
+  outline: none;
+  resize: vertical;
+  transition: 0.2s ease-in-out;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: inline-block;
+  color: #333;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--colorButton);
+  background-color: var(--colorFocus);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+
+#imageDisplay {
+  display: block;
+  margin-top: 15px;
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 2px solid #eee;
+}
+
+.CACHER {
+  display: none !important;
+}
+
+/* Zone d'upload : indication de la limite de taille */
+input[type='file'] {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px dashed #bbb;
+  border-radius: 12px;
+  font-size: 14px;
+  background-color: var(--colorText);
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.upload-hint {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #555;
+}
+
+/* Message de validation de l'image, juste sous le champ */
+.upload-feedback {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.upload-feedback[hidden] {
+  display: none;
+}
+
+.upload-feedback.error {
+  background: #fdecea;
+  border: 1px solid #e74c3c;
+  color: #c0392b;
+  animation: uploadFeedbackHighlight 0.4s ease-in-out 1;
+}
+
+.upload-feedback.info {
+  background: #eaf4ff;
+  border: 1px solid #2f80ed;
+  color: #1b4f8a;
+}
+
+@keyframes uploadFeedbackHighlight {
+  0% {
+    box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.55);
+  }
+  100% {
+    box-shadow: 0 0 0 10px rgba(231, 76, 60, 0);
+  }
+}
+
+.actions,
+form > div:last-of-type {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 26px;
+  padding: 0 22px 4px 22px;
+}
+
+button[type='submit'],
+.btn-save {
+  width: 180px;
+  padding: 14px;
+  background-color: var(--colorButton);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition:
+    transform 0.2s,
+    opacity 0.2s;
+}
+
+button[type='submit']:hover,
+button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btn-cancel,
+.actions a,
+form p a,
+form div:last-of-type a {
+  color: var(--colorButton);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.btn-cancel:hover,
+.actions a:hover,
+form p a:hover,
+form div:last-of-type a:hover {
+  text-decoration: underline;
+}
+
+.errors,
+small.errors,
+p.errors {
+  color: #e74c3c;
+  font-size: 14px;
+  margin-top: 6px;
+  display: block;
+}
+
+#availability_section p {
+  margin-top: 0;
+  font-weight: bold;
+  color: var(--colorButton);
+}
+
+@media (max-width: 650px) {
+  h1 {
+    font-size: 22px;
+  }
+
+  form {
+    margin: 10px;
+    width: calc(100% - 20px);
+  }
+
+  .actions,
+  form > div:last-of-type {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  button[type='submit'],
+  .btn-save {
+    width: 100%;
+  }
+}

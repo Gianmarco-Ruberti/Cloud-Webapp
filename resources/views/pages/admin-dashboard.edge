@@ -1,0 +1,143 @@
+@let(title = t('messages.admin.title'))
+@let(css = 'admin.css')
+@include('partials/header')
+
+<main class="admin-container">
+  <h1>{{ t('messages.admin.dashboard_title') }}</h1>
+
+  @include('partials/flash')
+
+  <!-- stats cards moved into left column -->
+
+  <div class="admin-grid">
+    <div class="left-column">
+      <section class="stats-cards">
+        <p class="muted small">{{ t('messages.admin.note') }}</p>
+        <div class="card">
+          <h3>{{ t('messages.admin.users_total_label') }}</h3>
+          <p class="big">{{ stats.usersTotal }}</p>
+        </div>
+        <div class="card">
+          <h3>{{ t('messages.admin.donations_total_label') }}</h3>
+          <p class="big">{{ stats.donationsTotal }}</p>
+        </div>
+        <div class="card">
+          <h3>{{ t('messages.admin.searches_total_label') }}</h3>
+          <p class="big">{{ stats.chercheTotal }}</p>
+        </div>
+        <div class="card">
+          <h3>{{ t('messages.admin.reservations_total_label') }}</h3>
+          <p class="big">{{ stats.reservationsTotal }}</p>
+        </div>
+      </section>
+
+      <section class="users-series">
+        <h2>{{ t('messages.admin.evolution_title') }}</h2>
+        <div class="series-table-wrap">
+          <table id="users-series">
+            <thead>
+              <tr>
+                <th>{{ t('messages.admin.date_header') }}</th>
+                <th>{{ t('messages.admin.registrations_header') }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              @each(row in stats.usersSeriesRows)
+              <tr>
+                <td>{{ row.label }}</td>
+                <td>{{ row.count }}</td>
+
+              </tr>
+              @end
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="users-management">
+        <h2>Liste des utilisateurs</h2>
+
+        <div class="search-bar-wrap">
+          <form action="{{ route('admin.dashboard') }}" method="GET" class="search-form">
+            <input type="text" name="search" placeholder="Rechercher un utilisateur (nom, email...)"
+              value="{{ request.input('search') || '' }}" />
+            <button type="submit" class="btn-search">Rechercher</button>
+            @if(request.input('search'))
+            <a href="{{ route('admin.dashboard') }}" class="btn-clear">X</a>
+            @endif
+          </form>
+        </div>
+
+        <div class="users-table-wrap">
+          @if(users && users.length > 0)
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Rôle</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @each(user in users)
+              <tr>
+                <td>{{ user.username || 'Sans nom' }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                  <span class="badge {{ user.isadmin ? 'badge-admin' : 'badge-user' }}">
+                    {{ user.isadmin ? 'Admin' : 'User' }}
+                  </span>
+                </td>
+                <td>
+                  <form action="{{ route('admin.users.setReferent', { id: user.id }) }}" method="POST" style="display:inline;">
+                    {{ csrfField() }}
+                    <button type="submit" class="btn-action-referent" onclick="return confirm('Définir cet utilisateur comme Référent Durabilité ?')">
+                      Rendre Référent
+                    </button>
+                  </form>
+                </td>
+              </tr>
+              @end
+            </tbody>
+          </table>
+          @else
+          <p class="no-data">Aucun utilisateur trouvé.</p>
+          @endif
+        </div>
+      </section>
+
+    </div>
+
+    <aside class="right-column">
+      <section class="feedback-list">
+        <h2>{{ t('messages.admin.feedback_title') }}</h2>
+        @if(feedbacks && feedbacks.length > 0)
+        <div class="feedback-rows">
+          @each(fb in feedbacks)
+          <div class="feedback-row">
+            <div class="feedback-meta">
+              <strong>{{ fb.name }}</strong>
+              <div class="muted">{{ fb.email }} • {{ fb.created_at }}</div>
+            </div>
+            <div class="feedback-message">{{ fb.message }}</div>
+            <div class="feedback-actions">
+              <form action="{{ route('admin.feedbacks.destroy', { id: fb.id }) }}?_method=DELETE" method="POST"
+                onsubmit="return confirm('{{ t('messages.admin.delete_confirm') }}')">
+                {{ csrfField() }}
+                <button type="submit" class="btn-delete">{{ t('messages.admin.delete_button') }}</button>
+              </form>
+            </div>
+          </div>
+          @end
+        </div>
+        @else
+        <p>{{ t('messages.admin.no_feedback') }}</p>
+        @end
+      </section>
+    </aside>
+  </div>
+</main>
+
+
+@include('partials/footer')

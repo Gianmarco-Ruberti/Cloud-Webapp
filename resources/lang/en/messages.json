@@ -1,0 +1,180 @@
+{
+  "auth": {
+    "login_title": "Login",
+    "username": "Username",
+    "password": "Password",
+    "login_button": "Login",
+    "edu_vaud": "EduVaud",
+    "external_login": "External"
+  },
+  "add_item": {
+    "title": "Propose a new item",
+    "image_label": "Item Image",
+    "image_preview_alt": "Image preview",
+    "image_hint": "Accepted formats: JPG, PNG or WebP. Maximum size: 5 MB. Heavier images are automatically compressed before upload.",
+    "image_error_type": "Unsupported image format. Please choose a JPG, PNG or WebP file.",
+    "image_error_size": "The image exceeds the 5 MB limit. Please choose a lighter file.",
+    "image_compressing": "Image too heavy (%size%): compressing…",
+    "name_label": "Item Name:",
+    "name_placeholder": "Ex: Shelf",
+    "desc_label": "Detailed Description:",
+    "desc_placeholder": "Describe condition and features.",
+    "cat_label": "Category:",
+    "cat_select": "-- Select a category --",
+    "status_label": "Status (Give or Lend):",
+    "status_select": "-- Select status --",
+    "status_give": "Give",
+    "status_lend": "Lend",
+    "mode_label": "Mode:",
+    "mode_select": "-- Select a mode --",
+    "mode_donation": "Give / Lend",
+    "mode_search": "Search",
+    "urgent_label": "Urgent?",
+    "loan_details": "Details",
+    "from": "Available from:",
+    "until": "Until (end date):",
+    "submit": "Add Item",
+    "back": "Back to home page",
+    "act_as_referent": "Publish officially as the Sustainability Coordinator",
+    "categories": {
+      "sport": "Sports & Leisure",
+      "books": "Culture & Books",
+      "clothes": "Clothing",
+      "tech": "IT & Tech",
+      "home": "Home & Kitchen",
+      "toys": "Toys & Kids",
+      "appliances": "Appliances",
+      "art": "Music & Art",
+      "office": "Office & Supplies"
+    }
+  },
+  "common": {
+    "give": "To give",
+    "lend": "To lend",
+    "search": "Search",
+    "all": "All",
+    "all_categories": "All categories",
+    "urgent": "URGENT"
+  },
+  "home": {
+    "filter_type": "Filter by type",
+    "filter_cat": "Filter by category",
+    "mode_search": "Search mode",
+    "mode_donation": "Give / Lend mode",
+    "no_objects_found": "No items found."
+  },
+  "edit_item": {
+    "title": "Edit Item:",
+    "image_placeholder": "Item image (leave empty to keep current)",
+    "submit": "Save changes",
+    "cancel": "Cancel"
+  },
+  "show_item": {
+    "published_by": "Published by:",
+    "available_from": "Available from",
+    "available_from_don": "Available since",
+    "available_fromdon": "Available since",
+    "needed_from": "Needed from",
+    "to": "to",
+    "reserve": "Reserve now",
+    "offer_help": "I want to help",
+    "login_to_reserve": "Log in to reserve",
+    "login_to_offer": "Log in to offer help",
+    "message_to_reserve": "Send a message to the donor ?",
+    "message_to_offer": "Send a message to the requester ?",
+    "confirm_reserve": "Confirm the reservation",
+    "confirm_offer": "Confirm offer",
+    "confirm_placeholder": "Leave blank to add nothing.",
+    "confirm_placolder": "Leave blank to add nothing.",
+    "official_role": "Sustainability Coordinator"
+  },
+  "account": {
+    "logout": "Logout",
+    "title_give": "Items to give",
+    "title_lend": "Items to lend",
+    "title_reservations": "My reservations (History)",
+    "empty_give": "You don't have any items to give yet.",
+    "empty_lend": "You don't have any items to lend yet.",
+    "empty_reservations": "You haven't reserved anything yet!",
+    "reserved_label": "(Reserved)",
+    "status_reserved": "Status: Reserved",
+    "btn_republish": "REPUBLISH",
+    "btn_edit": "EDIT",
+    "btn_delete": "DELETE",
+    "confirm_delete": "Delete this item?",
+    "view_referent": "Switch to referent listings",
+    "view_personal": "Switch to personal listings",
+    "title_give_ref": "Official items to give",
+    "empty_give_ref": "No official giveaway has been recorded.",
+    "title_lend_ref": "Official items to lend",
+    "empty_lend_ref": "No official loan has been recorded."
+  },
+  "footer": {
+    "rights": "All rights reserved",
+    "view_github": "View on GitHub",
+    "contact": "Contact",
+    "last_commit_alt": "Last commit"
+  },
+  "nav": {
+    "add": "Add",
+    "account": "Account",
+    "search": "Search",
+    "don": "Give/Lend",
+    "admin": "Admin"
+  },
+  "site": {
+    "title": "Give or Lend",
+    "logo_alt": "Site logo",
+    "user_alt": "User",
+    "banner_left_alt": "Left banner",
+    "banner_right_alt": "Right banner"
+  },
+  "pages": {
+    "home": "Home",
+    "account": "Account",
+    "admin_dashboard": "Administration",
+    "contact": "Feedback"
+  },
+  "contact": {
+    "title": "Feedback",
+    "author_label": "Feedback author:",
+    "message_label": "Detailed feedback description:",
+    "message_placeholder": "Describe your experience, suggestion or issue encountered...",
+    "submit": "Send feedback",
+    "cancel": "Cancel"
+  },
+  "admin": {
+    "title": "Administration",
+    "dashboard_title": "Administration dashboard",
+    "note": "The totals below only include active items: archived items or items automatically deleted after 120 days are excluded.",
+    "users_total_label": "Registered users",
+    "donations_total_label": "Give/Lend listings",
+    "searches_total_label": "Active searches",
+    "reservations_total_label": "Reservations",
+    "evolution_title": "Sign-up trend (last 10 days)",
+    "date_header": "Date",
+    "registrations_header": "Sign-ups",
+    "feedback_title": "Recent feedback",
+    "delete_confirm": "Delete this feedback?",
+    "delete_button": "Delete",
+    "no_feedback": "No feedback yet."
+  },
+  "errors": {
+    "server_title": "Server error",
+    "not_found_title": "Page not found",
+    "httpcat_note": "This image is provided by http.cat to make the error more amusing!"
+  },
+  "emails": {
+    "reservation": {
+      "title": "New request!",
+      "greeting": "Hello",
+      "interested": "Good news! A user is interested in your",
+      "requester_label": "Requester:",
+      "email_label": "Email:",
+      "message_label": "Requester message:",
+      "contact_reply": "You can contact this person directly by replying to this email.",
+      "reply_button": "Reply to requester",
+      "auto_notice": "This is an automatic message, please do not reply directly."
+    }
+  }
+}

@@ -1,0 +1,33 @@
+@let(css = 'object-form.css')
+@let(title = t('messages.contact.title'))
+@include('partials/header')
+<main>
+  @include('partials/flash')
+  <h1>{{ t('messages.contact.title') }}</h1>
+
+  <form action="/contact" method="POST">
+    {{ csrfField() }}
+
+    {{-- Information utilisateur (Lecture seule) --}}
+    <div class="field-group">
+      <label>{{ t('messages.contact.author_label') }}</label>
+      <p>{{ auth.user.Username }} ({{ auth.user.email }})</p>
+    </div>
+
+    {{-- Champ Message seul --}}
+    <div class="field-group">
+      <label for="message">{{ t('messages.contact.message_label') }}</label>
+      <textarea id="message" name="message" rows="6" placeholder="{{ t('messages.contact.message_placeholder') }}">{{ old('message') || '' }}</textarea>
+      @if(flashMessages.has('errors.message'))
+        <p class="errors">{{ flashMessages.get('errors.message') }}</p>
+      @endif
+    </div>
+
+    {{-- Zone d'actions inférieure --}}
+    <div class="actions">
+      <button type="submit" class="btn-submit-feedback">{{ t('messages.contact.submit') }}</button>
+      <a href="/home" class="btn-cancel">{{ t('messages.contact.cancel') }}</a>
+    </div>
+  </form>
+</main>
+@include('partials/footer')
